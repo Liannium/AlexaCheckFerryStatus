@@ -1,15 +1,10 @@
-def findvessel(ferries: list, departingfrom: str, route: str) -> dict:
-    returnvessel = ferries[0]
-    found = False
+def findvessel(ferries: list, departingfrom: str, route: str) -> list:
+    returnvessels = []
     for i in range(0, len(ferries)):
         current = ferries[i]
         if current["lastdock"] == departingfrom and current["route"] == route:
-            returnvessel = ferries[i]
-            found = True
-    if found:
-        return returnvessel
-    else:
-        return None
+            returnvessels.append(current)
+    return returnvessels
 
 
 def getoutput(ferry: dict) -> str:
@@ -20,6 +15,7 @@ def getoutput(ferry: dict) -> str:
     elif ferry["eta"] == "Calculating":
         output = "The estimated arrival of the ferry currently leaving " + ferry["lastdock"] + " is being calculated"
     else:
-        output = "The " + ferry["name"] + " is estimated to arrive in " + ferry["aterm"] + " at " + ferry["eta"] + " " \
-                 + ferry["etaAMPM"]
+        output = "The <scheduled> sailing of the " + ferry["name"] + " from " + ferry["lastdock"] + " to " + \
+            ferry["aterm"] + " left the dock at " + ferry["leftdock"] + " " + ferry["leftdockAMPM"] + \
+            " and is expected to arrive at " + ferry["eta"] + " " + ferry["etaAMPM"]
     return output
