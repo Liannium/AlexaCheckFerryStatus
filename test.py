@@ -1,6 +1,6 @@
 import requests
 import json
-from bs4 import BeautifulSoup
+import vesselfunctions
 
 url = "https://www.wsdot.com/ferries/vesselwatch/Vessels.ashx"
 
@@ -12,22 +12,20 @@ if vesselresp.status_code == 200:
     print("Successfully accessed page!")
     vessel = json.loads(vesselresp.text)
     vessellist = vessel["vessellist"]
-    leavingBainbridge = vessellist[0]
-    for i in range(0, len(vessellist)):
-        current = vessellist[i]
-        if current["lastdock"] == "Bainbridge Island" and current["route"] == "SEA-BI":
-            leavingBainbridge = vessellist[i]
-    if leavingBainbridge["eta"] == "":
-        print("The estimated arrival of the ferry currently leaving Bainbridge Island can not be found")
-    elif leavingBainbridge["eta"] == "Calculating":
-        print("The estimated arrival of the ferry currently leaving Bainbridge Island is being calculated")
+    leavingBainbridge = vesselfunctions.findvessel(vessellist, "Bainbridge", "SEA-BI")
+    if leavingBainbridge is not None:
+        print(leavingBainbridge["eta"])
+        BIoutput = vesselfunctions.getoutput(leavingBainbridge)
+        print(BIoutput)
     else:
-        output = "The " + leavingBainbridge["name"] + " is estimated to arrive in Seattle at " + \
-                 leavingBainbridge["eta"] + " " + leavingBainbridge["etaAMPM"]
+        print("The ferry leaving Bainbridge could not be found")
 
-    leavingSeattle = vessellist[0]
-    for i in range(0, len(vessellist)):
-        current = vessellist[i]
-        if current["lastdock"] == "Seattle" and current["route"] == "SEA-BI":
-            leavingSeattle = vessellist[i]
-    print(leavingSeattle)
+    leavingSeattle = vesselfunctions.findvessel(vessellist, "Seattle", "SEA-BI")
+    if leavingSeattle is not None:
+        print(leavingSeattle["eta"])
+        SEAoutput = vesselfunctions.getoutput(leavingSeattle)
+        print(SEAoutput)
+    else:
+        print("The ferry leaving Seattle could not be found")
+else:
+    print("The page could not be successfully accessed")
