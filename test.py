@@ -26,8 +26,7 @@ if vesselresp.status_code == 200 and terminalresp.status_code == 200:
         for i in range(0, len(leavingBainbridge)):
             current = leavingBainbridge[i]
             nextFerry = BainbridgeTerminal[i]
-            print(nextFerry["Departure"])
-            output = vesselfunctions.getoutput(current, nextFerry["Departure"], nextFerry["Cancelled"])
+            output = vesselfunctions.getoutput(current, nextFerry["Cancelled"])
             print(output)
     else:
         print("No ferries are going from Bainbridge to Seattle right now")
@@ -42,8 +41,7 @@ if vesselresp.status_code == 200 and terminalresp.status_code == 200:
         for i in range(0, len(leavingSeattle)):
             current = leavingSeattle[i]
             nextFerry = SeattleNext[i]
-            print(nextFerry["Departure"])
-            SEAoutput = vesselfunctions.getoutput(current, nextFerry["Departure"], nextFerry["Cancelled"])
+            SEAoutput = vesselfunctions.getoutput(current, nextFerry["Cancelled"])
             print(SEAoutput)
     else:
         print("No ferries are going from Seattle to Bainbridge right now")
