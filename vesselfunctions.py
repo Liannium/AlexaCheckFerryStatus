@@ -1,4 +1,5 @@
 def findvessel(ferries: list, departingfrom: str, route: str) -> list:
+    """finds the vessel currently sailing from the specified dock on the specified route"""
     returnvessels = []
     for i in range(0, len(ferries)):
         current = ferries[i]
@@ -8,6 +9,7 @@ def findvessel(ferries: list, departingfrom: str, route: str) -> list:
 
 
 def findterminal(terminals: list, name: str):
+    """finds the specified terminal"""
     for i in range(0, len(terminals)):
         current = terminals[i]
         if current["Terminal"]["TerminalName"] == name:
@@ -16,6 +18,7 @@ def findterminal(terminals: list, name: str):
 
 
 def getoutput(ferry: dict, canceled: bool) -> str:
+    """returns the output string"""
     output = ""
     if canceled:
         output = "The " + ferry["nextdep"] + " " + ferry["nextdepAMPM"] + " sailing from " + ferry["lastdock"] + " to "\
