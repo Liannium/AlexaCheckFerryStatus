@@ -28,7 +28,7 @@ class LaunchRequestHandler(AbstractRequestHandler):
         return handler_input.response_builder.response
 
 
-class CheckFerryIntentHandler(AbstractRequestHandler):
+class SEABIIntentHandler(AbstractRequestHandler):
     def can_handle(self, handler_input):
         # type: (HandlerInput) -> bool
         print("in check ferry")
