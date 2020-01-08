@@ -1,6 +1,6 @@
-import requests
 import json
 import re
+
 
 def findvessel(ferries: list, departingfrom: str, route: str) -> list:
     """finds the vessel currently sailing from the specified dock on the specified route"""
@@ -68,3 +68,15 @@ def getbiseattleferries(ferries: list, terminals: list) -> str:
         returnstring += "No ferries are going from Seattle to Bainbridge right now."
 
     return returnstring
+
+
+def loadvessellist(vesselresp):
+    vessels = json.loads(vesselresp.text)
+    return vessels["vessellist"]
+
+
+def loadterminallist(terminalresp):
+    regex = r'new Date\(\d*\)'
+    terminalstring = re.sub(regex, "null", terminalresp.text, flags=re.MULTILINE)
+    terminals = json.loads(terminalstring)
+    return terminals["FeedContentList"]
