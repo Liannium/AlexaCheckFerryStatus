@@ -40,18 +40,23 @@ def getoutput(ferry: dict, canceled: bool) -> str:
     return output
 
 
+def getalloutput(ferries: list, terminaldata, terminal1: str, terminal2: str) -> str:
+    returnstring = ''
+    if ferries:
+        for i in range(0, len(ferries)):
+            current = ferries[i]
+            nextFerry = terminaldata[i]
+            returnstring += getoutput(current, nextFerry["Cancelled"])
+    else:
+        returnstring = "There are no ferries going from " + terminal1 + " to " + terminal2 + "right now. "
+    return returnstring
+
+
 def getbiseattleferries(ferries: list, terminals: list) -> str:
     returnstring = ''
     BainbridgeTerminal = findterminal(terminals, "Bainbridge Island")
     leavingBainbridge = findvessel(ferries, "Bainbridge Island", "SEA-BI")
-
-    if leavingBainbridge:
-        for i in range(0, len(leavingBainbridge)):
-            current = leavingBainbridge[i]
-            nextFerry = BainbridgeTerminal[i]
-            returnstring += getoutput(current, nextFerry["Cancelled"])
-    else:
-        returnstring += "No ferries are going from Bainbridge to Seattle right now. "
+    returnstring += getalloutput(leavingBainbridge, BainbridgeTerminal, "Bainbridge Island", "Seattle")
 
     SeattleTerminal = findterminal(terminals, "Seattle")
     leavingSeattle = findvessel(ferries, "Seattle", "SEA-BI")
@@ -59,13 +64,7 @@ def getbiseattleferries(ferries: list, terminals: list) -> str:
     for i in range(0, len(SeattleTerminal)):
         if SeattleTerminal[i]["ArriveSailingSpaces"][0]["TerminalName"] == "Bainbridge Island":
             SeattleNext.append(SeattleTerminal[i])
-    if leavingSeattle:
-        for i in range(0, len(leavingSeattle)):
-            current = leavingSeattle[i]
-            nextFerry = SeattleNext[i]
-            returnstring += getoutput(current, nextFerry["Cancelled"])
-    else:
-        returnstring += "No ferries are going from Seattle to Bainbridge right now."
+    returnstring += getalloutput(leavingSeattle, SeattleTerminal, "Seattle", "Bainbridge Island")
 
     return returnstring
 

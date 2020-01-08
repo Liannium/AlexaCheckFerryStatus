@@ -11,6 +11,9 @@ if vesselresp.status_code == 200 and terminalresp.status_code == 200:
     vessellist = loadvessellist(vesselresp)
     terminallist = loadterminallist(terminalresp)
 
-    print(getbiseattleferries(vessellist, terminallist))
+    route = input("Enter a route: ")
+    if route == "SEA-BI":
+        print(getbiseattleferries(vessellist, terminallist))
+
 else:
     print("The page could not be successfully accessed")
