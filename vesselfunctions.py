@@ -42,13 +42,13 @@ def getoutput(ferry: dict, canceled: bool) -> str:
 
 def getalloutput(ferries: list, terminaldata, terminal1: str, terminal2: str) -> str:
     returnstring = ''
-    if ferries:
+    if ferries and terminaldata:
         for i in range(0, len(ferries)):
             current = ferries[i]
             nextFerry = terminaldata[i]
             returnstring += getoutput(current, nextFerry["Cancelled"])
     else:
-        returnstring = "There are no ferries going from " + terminal1 + " to " + terminal2 + "right now. "
+        returnstring = "There are no ferries going from " + terminal1 + " to " + terminal2 + " right now. "
     return returnstring
 
 
@@ -68,6 +68,16 @@ def getbiseattleferries(ferries: list, terminals: list) -> str:
 
     return returnstring
 
+
+def getEdKingferries(ferries: list, terminals: list) -> str:
+    returnstring = ''
+    EdmondsTerminal = findterminal(terminals, "Edmonds")
+    leavingEdmonds = findvessel(ferries, "Edmonds", "ED-KING")
+    returnstring += getalloutput(leavingEdmonds, EdmondsTerminal, "Edmonds", "Kingston")
+    KingstonTerminal = findterminal(terminals, "Kingston")
+    leavingKingston = findvessel(ferries, "Kingston", "ED-KING")
+    returnstring += getalloutput(leavingKingston, KingstonTerminal, "Kingston", "Edmonds")
+    return returnstring
 
 def loadvessellist(vesselresp):
     vessels = json.loads(vesselresp.text)

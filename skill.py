@@ -9,7 +9,7 @@ from ask_sdk_core.dispatch_components import AbstractExceptionHandler
 import requests
 import json
 import re
-from vesselfunctions import getbiseattleferries
+from vesselfunctions import getbiseattleferries, getEdKingferries, loadterminallist, loadvessellist
 
 
 class LaunchRequestHandler(AbstractRequestHandler):
@@ -36,7 +36,6 @@ class CheckFerryIntentHandler(AbstractRequestHandler):
 
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
-        print("in check ferry")
         response = ""
         terminalurl = "https://www.wsdot.wa.gov/ferries/vesselwatch/Terminals.ashx"
         vesselurl = "https://www.wsdot.com/ferries/vesselwatch/Vessels.ashx"
@@ -45,13 +44,8 @@ class CheckFerryIntentHandler(AbstractRequestHandler):
         terminalresp = requests.get(terminalurl)
 
         if vesselresp.status_code == 200 and terminalresp.status_code == 200:
-            vessels = json.loads(vesselresp.text)
-            vessellist = vessels["vessellist"]
-
-            regex = r'new Date\(\d*\)'
-            terminalstring = re.sub(regex, "null", terminalresp.text, flags=re.MULTILINE)
-            terminals = json.loads(terminalstring)
-            terminallist = terminals["FeedContentList"]
+            vessellist = loadvessellist(vesselresp)
+            terminallist = loadterminallist(terminalresp)
 
             response = getbiseattleferries(vessellist, terminallist)
         else:
@@ -59,6 +53,34 @@ class CheckFerryIntentHandler(AbstractRequestHandler):
 
         handler_input.response_builder.speak(response).set_card(
             SimpleCard("Check Ferry", response)).set_should_end_session(
+            True)
+        return handler_input.response_builder.response
+
+
+class CheckEdKingIntentHandler(AbstractRequestHandler):
+    def can_handle(self, handler_input):
+        # type: (HandlerInput) -> bool
+        print("in check ED-KING")
+        return is_intent_name("CheckEdKingIntent")(handler_input)
+
+    def handle(self, handler_input):
+        response = ""
+        terminalurl = "https://www.wsdot.wa.gov/ferries/vesselwatch/Terminals.ashx"
+        vesselurl = "https://www.wsdot.com/ferries/vesselwatch/Vessels.ashx"
+
+        vesselresp = requests.get(vesselurl)
+        terminalresp = requests.get(terminalurl)
+
+        if vesselresp.status_code == 200 and terminalresp.status_code == 200:
+            vessellist = loadvessellist(vesselresp)
+            terminallist = loadterminallist(terminalresp)
+
+            response = getEdKingferries(vessellist, terminallist)
+        else:
+            response = "The page could not be successfully accessed"
+
+        handler_input.response_builder.speak(response).set_card(
+            SimpleCard("Check Edmonds Kingston", response)).set_should_end_session(
             True)
         return handler_input.response_builder.response
 
@@ -131,6 +153,7 @@ sb = SkillBuilder()
 
 sb.add_request_handler(LaunchRequestHandler())
 sb.add_request_handler(CheckFerryIntentHandler())
+sb.add_request_handler(CheckEdKingIntentHandler())
 sb.add_request_handler(HelpIntentHandler())
 sb.add_request_handler(CancelAndStopIntentHandler())
 sb.add_request_handler(SessionEndedRequestHandler())

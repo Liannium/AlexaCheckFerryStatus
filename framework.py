@@ -1,5 +1,5 @@
 import requests
-from vesselfunctions import getbiseattleferries, loadvessellist, loadterminallist
+from vesselfunctions import getbiseattleferries, loadvessellist, loadterminallist, getEdKingferries
 
 terminalurl = "https://www.wsdot.wa.gov/ferries/vesselwatch/Terminals.ashx"
 vesselurl = "https://www.wsdot.com/ferries/vesselwatch/Vessels.ashx"
@@ -14,6 +14,7 @@ if vesselresp.status_code == 200 and terminalresp.status_code == 200:
     route = input("Enter a route: ")
     if route == "SEA-BI":
         print(getbiseattleferries(vessellist, terminallist))
-
+    if route == "ED-KING":
+        print(getEdKingferries(vessellist, terminallist))
 else:
     print("The page could not be successfully accessed")
