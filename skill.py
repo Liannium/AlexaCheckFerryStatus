@@ -21,7 +21,8 @@ class LaunchRequestHandler(AbstractRequestHandler):
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
         print("in launch request handler")
-        response = "I can check the status of the ferry."
+        response = "I can check the status of the ferry. Just say Alexa, tell ferry status to check the status of the "\
+            "blank ferry"
 
         handler_input.response_builder.speak(response).set_card(
             SimpleCard("Check Ferry", response)).set_should_end_session(False)
@@ -82,6 +83,23 @@ class CheckEdKingIntentHandler(AbstractRequestHandler):
         handler_input.response_builder.speak(response).set_card(
             SimpleCard("Check Edmonds Kingston", response)).set_should_end_session(
             True)
+        return handler_input.response_builder.response
+
+
+class CheckSeattleIntentHandler(AbstractRequestHandler):
+    def can_handle(self, handler_input):
+        # type: (HandlerInput) -> bool
+        print("in check seattle")
+        return is_intent_name("CheckSeattleIntent")(handler_input)
+
+    def handle(self, handler_input):
+        # type: (HandlerInput) -> Response
+        print("in check seattle")
+        response = "I'm not sure which seattle ferry you mean. Next time, please specify either the Bainbridge or " \
+            "Bremerton ferry"
+
+        handler_input.response_builder.speak(response).set_card(
+            SimpleCard("Check Seattle", response)).set_should_end_session(False)
         return handler_input.response_builder.response
 
 
@@ -154,6 +172,7 @@ sb = SkillBuilder()
 sb.add_request_handler(LaunchRequestHandler())
 sb.add_request_handler(CheckFerryIntentHandler())
 sb.add_request_handler(CheckEdKingIntentHandler())
+sb.add_request_handler(CheckSeattleIntentHandler())
 sb.add_request_handler(HelpIntentHandler())
 sb.add_request_handler(CancelAndStopIntentHandler())
 sb.add_request_handler(SessionEndedRequestHandler())
