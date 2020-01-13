@@ -1,6 +1,9 @@
 import json
 import re
+import requests
 
+vesselurl = "https://www.wsdot.com/ferries/vesselwatch/Vessels.ashx"
+terminalurl = "https://www.wsdot.wa.gov/ferries/vesselwatch/Terminals.ashx"
 
 def findvessel(ferries: list, departingfrom: str, route: str) -> list:
     """finds the vessel currently sailing from the specified dock on the specified route"""
@@ -79,13 +82,21 @@ def getEdKingferries(ferries: list, terminals: list) -> str:
     returnstring += getalloutput(leavingKingston, KingstonTerminal, "Kingston", "Edmonds")
     return returnstring
 
-def loadvessellist(vesselresp):
-    vessels = json.loads(vesselresp.text)
-    return vessels["vessellist"]
+def loadvessellist():
+    vesselresp = requests.get(vesselurl)
+    if vesselresp.status_code != 200:
+        return None
+    else:
+        vessels = json.loads(vesselresp.text)
+        return vessels["vessellist"]
 
 
-def loadterminallist(terminalresp):
-    regex = r'new Date\(\d*\)'
-    terminalstring = re.sub(regex, "null", terminalresp.text, flags=re.MULTILINE)
-    terminals = json.loads(terminalstring)
-    return terminals["FeedContentList"]
+def loadterminallist():
+    terminalresp = requests.get(terminalurl)
+    if terminalresp.status_code != 200:
+        return None
+    else:
+        regex = r'new Date\(\d*\)'
+        terminalstring = re.sub(regex, "null", terminalresp.text, flags=re.MULTILINE)
+        terminals = json.loads(terminalstring)
+        return terminals["FeedContentList"]

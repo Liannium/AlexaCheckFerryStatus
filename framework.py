@@ -4,13 +4,10 @@ from vesselfunctions import getbiseattleferries, loadvessellist, loadterminallis
 terminalurl = "https://www.wsdot.wa.gov/ferries/vesselwatch/Terminals.ashx"
 vesselurl = "https://www.wsdot.com/ferries/vesselwatch/Vessels.ashx"
 
-vesselresp = requests.get(vesselurl)
-terminalresp = requests.get(terminalurl)
+vessellist = loadvessellist()
+terminallist = loadterminallist()
 
-if vesselresp.status_code == 200 and terminalresp.status_code == 200:
-    vessellist = loadvessellist(vesselresp)
-    terminallist = loadterminallist(terminalresp)
-
+if terminallist is not None and vessellist is not None:
     route = input("Enter a route: ")
     if route == "SEA-BI":
         print(getbiseattleferries(vessellist, terminallist))
