@@ -38,16 +38,10 @@ class CheckFerryIntentHandler(AbstractRequestHandler):
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
         response = ""
-        terminalurl = "https://www.wsdot.wa.gov/ferries/vesselwatch/Terminals.ashx"
-        vesselurl = "https://www.wsdot.com/ferries/vesselwatch/Vessels.ashx"
+        vessellist = loadvessellist()
+        terminallist = loadterminallist()
 
-        vesselresp = requests.get(vesselurl)
-        terminalresp = requests.get(terminalurl)
-
-        if vesselresp.status_code == 200 and terminalresp.status_code == 200:
-            vessellist = loadvessellist(vesselresp)
-            terminallist = loadterminallist(terminalresp)
-
+        if vessellist is not None and terminallist is not None:
             response = getbiseattleferries(vessellist, terminallist)
         else:
             response = "The page could not be successfully accessed"
@@ -66,16 +60,10 @@ class CheckEdKingIntentHandler(AbstractRequestHandler):
 
     def handle(self, handler_input):
         response = ""
-        terminalurl = "https://www.wsdot.wa.gov/ferries/vesselwatch/Terminals.ashx"
-        vesselurl = "https://www.wsdot.com/ferries/vesselwatch/Vessels.ashx"
+        vessellist = loadvessellist()
+        terminallist = loadterminallist()
 
-        vesselresp = requests.get(vesselurl)
-        terminalresp = requests.get(terminalurl)
-
-        if vesselresp.status_code == 200 and terminalresp.status_code == 200:
-            vessellist = loadvessellist(vesselresp)
-            terminallist = loadterminallist(terminalresp)
-
+        if vessellist is not None and terminallist is not None:
             response = getEdKingferries(vessellist, terminallist)
         else:
             response = "The page could not be successfully accessed"

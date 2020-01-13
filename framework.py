@@ -1,9 +1,6 @@
 import requests
 from vesselfunctions import getbiseattleferries, loadvessellist, loadterminallist, getEdKingferries
 
-terminalurl = "https://www.wsdot.wa.gov/ferries/vesselwatch/Terminals.ashx"
-vesselurl = "https://www.wsdot.com/ferries/vesselwatch/Vessels.ashx"
-
 vessellist = loadvessellist()
 terminallist = loadterminallist()
 
