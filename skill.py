@@ -6,9 +6,6 @@ from ask_sdk_model import Response
 from ask_sdk_model.ui import SimpleCard
 from ask_sdk_core.dispatch_components import AbstractExceptionHandler
 
-import requests
-import json
-import re
 from vesselfunctions import getbiseattleferries, getEdKingferries, loadterminallist, loadvessellist
 
 
