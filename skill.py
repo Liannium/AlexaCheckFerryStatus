@@ -111,7 +111,7 @@ class HelpIntentHandler(AbstractRequestHandler):
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
         print("in help")
-        response = "I can check the status of the ferry"
+        response = "I can check the status of the ferry.Just say Alexa, check the status of the blank ferry"
 
         handler_input.response_builder.speak(response).ask(response).set_card(
             SimpleCard("Check Ferry", response))

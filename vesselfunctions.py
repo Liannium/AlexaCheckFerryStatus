@@ -55,6 +55,22 @@ def getalloutput(ferries: list, terminaldata, terminal1: str, terminal2: str) ->
     return returnstring
 
 
+def getSeaBrferries (ferries: list, terminals: list) -> str:
+    returnstring = ''
+    BremertonTerminal = findterminal(terminals, "Bainbridge Island")
+    leavingBremerton = findvessel(ferries, "Bainbridge Island", "SEA-BR")
+    returnstring += getalloutput(leavingBremerton, BremertonTerminal, "Bremerton", "Seattle")
+
+    SeattleTerminal = findterminal(terminals, "Seattle")
+    leavingSeattle = findvessel(ferries, "Seattle", "SEA-BR")
+    SeattleNext = []
+    for i in range(0, len(SeattleTerminal)):
+        if SeattleTerminal[i]["ArriveSailingSpaces"][0]["TerminalName"] == "Bremerton":
+            SeattleNext.append(SeattleTerminal[i])
+    returnstring += getalloutput(leavingSeattle, SeattleTerminal, "Seattle", "Bremerton")
+    return returnstring
+
+
 def getbiseattleferries(ferries: list, terminals: list) -> str:
     returnstring = ''
     BainbridgeTerminal = findterminal(terminals, "Bainbridge Island")
@@ -81,6 +97,7 @@ def getEdKingferries(ferries: list, terminals: list) -> str:
     leavingKingston = findvessel(ferries, "Kingston", "ED-KING")
     returnstring += getalloutput(leavingKingston, KingstonTerminal, "Kingston", "Edmonds")
     return returnstring
+
 
 def loadvessellist():
     vesselresp = requests.get(vesselurl)
