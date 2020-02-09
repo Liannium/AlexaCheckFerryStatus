@@ -6,7 +6,7 @@ from ask_sdk_model import Response
 from ask_sdk_model.ui import SimpleCard
 from ask_sdk_core.dispatch_components import AbstractExceptionHandler
 
-from vesselfunctions import getbiseattleferries, getEdKingferries, loadterminallist, loadvessellist
+from vesselfunctions import getbiseattleferries, getEdKingferries, getSeaBrferries, loadterminallist, loadvessellist
 
 
 class LaunchRequestHandler(AbstractRequestHandler):
@@ -71,6 +71,24 @@ class CheckEdKingIntentHandler(AbstractRequestHandler):
         return handler_input.response_builder.response
 
 
+class CheckSeaBrIntentHandler(AbstractRequestHandler):
+    def can_handle(self, handler_input):
+        return is_intent_name("CheckSeaBrIntent")
+
+    def handle(self, handler_input):
+        response = ""
+        vessellist = loadvessellist()
+        terminallist = loadterminallist()
+
+        if vessellist is not None and terminallist is not None:
+            response = getSeaBrferries(vessellist, terminallist)
+        else:
+            response = "The page could not be successfully accessed"
+
+        handler_input.response_builder.speak(response).set_card(
+            SimpleCard("Check Seattle Bremerton", response)).set_should_end_session(True)
+
+
 class CheckSeattleIntentHandler(AbstractRequestHandler):
     def can_handle(self, handler_input):
         # type: (HandlerInput) -> bool
@@ -84,7 +102,7 @@ class CheckSeattleIntentHandler(AbstractRequestHandler):
             "Bremerton ferry"
 
         handler_input.response_builder.speak(response).set_card(
-            SimpleCard("Check Seattle", response)).set_should_end_session(False)
+            SimpleCard("Check Seattle", response)).set_should_end_session(True)
         return handler_input.response_builder.response
 
 
@@ -158,6 +176,7 @@ sb.add_request_handler(LaunchRequestHandler())
 sb.add_request_handler(CheckFerryIntentHandler())
 sb.add_request_handler(CheckEdKingIntentHandler())
 sb.add_request_handler(CheckSeattleIntentHandler())
+sb.add_request_handler(CheckSeaBrIntentHandler())
 sb.add_request_handler(HelpIntentHandler())
 sb.add_request_handler(CancelAndStopIntentHandler())
 sb.add_request_handler(SessionEndedRequestHandler())
