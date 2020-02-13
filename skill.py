@@ -87,7 +87,7 @@ class CheckSeaBrIntentHandler(AbstractRequestHandler):
 
         handler_input.response_builder.speak(response).set_card(
             SimpleCard("Check Seattle Bremerton", response)).set_should_end_session(True)
-
+        return handler_input.response_builder.response
 
 class CheckSeattleIntentHandler(AbstractRequestHandler):
     def can_handle(self, handler_input):

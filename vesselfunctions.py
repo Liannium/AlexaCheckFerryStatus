@@ -68,7 +68,7 @@ def getSeaBrferries (ferries: list, terminals: list) -> str:
         if SeattleTerminal[i]["ArriveSailingSpaces"][0]["TerminalName"] == "Bremerton":
             SeattleNext.append(SeattleTerminal[i])
     returnstring += getalloutput(leavingSeattle, SeattleTerminal, "Seattle", "Bremerton")
-    return "This is a test"
+    return returnstring
 
 
 def getbiseattleferries(ferries: list, terminals: list) -> str:
