@@ -28,18 +28,17 @@ def getoutput(ferry: dict, canceled: bool) -> str:
     """returns the output string"""
     output = ""
     if canceled:
-        output = "The " + ferry["nextdep"] + " " + ferry["nextdepAMPM"] + " sailing from " + ferry["lastdock"] + " to "\
-                 + ferry["aterm"] + " has been " + "cancelled. "
+        output = "The {} {} sailing from {} to {} has been cancelled.".format(ferry["nextdep"], ferry["nextdepAMPM"],
+                                                                              ferry["lastdock"], ferry["aterm"])
     if ferry["eta"] == "":
-        output = "The estimated arrival of the ferry currently leaving " + ferry["lastdock"] + " cannot be found. "
+        output = "The estimated arrival of the ferry currently leaving {} cannot be found.".format(ferry["lastdock"])
     elif ferry["eta"] == "Calculating":
-        output = "The estimated arrival of the " + ferry["nextdep"] + " " + ferry["nextdepAMPM"] + \
-                 " ferry departing from " + ferry["lastdock"] + " is being calculated. "
+        output = "The estimated arrival of the {} {} ferry departing from {} is being calculated.".format(
+            ferry["nextdep"], ferry["nextdepAMPM"], ferry["lastdock"])
     else:
-        output = "The " + ferry["nextdep"] + " " + ferry["nextdepAMPM"] +  " sailing of the " + ferry["name"] + \
-                 " from " + ferry["lastdock"] + " to " + ferry["aterm"] + " left the dock at " + ferry["leftdock"] + \
-                 " " + ferry["leftdockAMPM"] + " and is expected to arrive at " + ferry["eta"] + " " + \
-                 ferry["etaAMPM"] + ". "
+        output = "The {} {} sailing of the {} from {} to {} left the dock at {} {} and is expected to arrive at {} " \
+                 "{}.".format(ferry["nextdep"], ferry["nextdepAMPM"], ferry["name"], ferry["lastdock"], ferry["aterm"],
+                              ferry["leftdock"], ferry["leftdockAMPM"], ferry["eta"], ferry["etaAMPM"])
     return output
 
 
