@@ -6,7 +6,7 @@ from ask_sdk_model import Response
 from ask_sdk_model.ui import SimpleCard
 from ask_sdk_core.dispatch_components import AbstractExceptionHandler
 
-from vesselfunctions import getbiseattleferries, getEdKingferries, getSeaBrferries, loadterminallist, loadvessellist
+from vesselfunctions import getEdKingferries, getseattleferries, loadterminallist, loadvessellist
 
 
 class LaunchRequestHandler(AbstractRequestHandler):
@@ -39,7 +39,7 @@ class CheckFerryIntentHandler(AbstractRequestHandler):
         terminallist = loadterminallist()
 
         if vessellist is not None and terminallist is not None:
-            response = getbiseattleferries(vessellist, terminallist)
+            response = getseattleferries(vessellist, terminallist, "SEA-BI", "Bainbridge")
         else:
             response = "The page could not be successfully accessed"
 
@@ -81,7 +81,7 @@ class CheckSeaBrIntentHandler(AbstractRequestHandler):
         terminallist = loadterminallist()
 
         if vessellist is not None and terminallist is not None:
-            response = getSeaBrferries(vessellist, terminallist)
+            response = getseattleferries(vessellist, terminallist, "SEA-BR", "Bremerton")
         else:
             response = "The page could not be successfully accessed"
 

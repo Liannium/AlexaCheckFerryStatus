@@ -54,36 +54,19 @@ def getalloutput(ferries: list, terminaldata, terminal1: str, terminal2: str) ->
     return returnstring
 
 
-def getSeaBrferries (ferries: list, terminals: list) -> str:
+def getseattleferries(ferries: list, terminals: list, route: str, terminalname: str) -> str:
     returnstring = ''
-    BremertonTerminal = findterminal(terminals, "Bainbridge Island")
-    leavingBremerton = findvessel(ferries, "Bainbridge Island", "SEA-BR")
-    returnstring += getalloutput(leavingBremerton, BremertonTerminal, "Bremerton", "Seattle")
+    otherTerminal = findterminal(terminals, terminalname)
+    leavingOther = findvessel(ferries, terminalname, route)
+    returnstring += getalloutput(leavingOther, otherTerminal, terminalname, "Seattle")
 
     SeattleTerminal = findterminal(terminals, "Seattle")
-    leavingSeattle = findvessel(ferries, "Seattle", "SEA-BR")
+    leavingSeattle = findvessel(ferries, "Seattle", route)
     SeattleNext = []
     for i in range(0, len(SeattleTerminal)):
-        if SeattleTerminal[i]["ArriveSailingSpaces"][0]["TerminalName"] == "Bremerton":
+        if SeattleTerminal[i]["ArriveSailingSpaces"][0]["TerminalName"] == terminalname:
             SeattleNext.append(SeattleTerminal[i])
-    returnstring += getalloutput(leavingSeattle, SeattleTerminal, "Seattle", "Bremerton")
-    return returnstring
-
-
-def getbiseattleferries(ferries: list, terminals: list) -> str:
-    returnstring = ''
-    BainbridgeTerminal = findterminal(terminals, "Bainbridge Island")
-    leavingBainbridge = findvessel(ferries, "Bainbridge Island", "SEA-BI")
-    returnstring += getalloutput(leavingBainbridge, BainbridgeTerminal, "Bainbridge Island", "Seattle")
-
-    SeattleTerminal = findterminal(terminals, "Seattle")
-    leavingSeattle = findvessel(ferries, "Seattle", "SEA-BI")
-    SeattleNext = []
-    for i in range(0, len(SeattleTerminal)):
-        if SeattleTerminal[i]["ArriveSailingSpaces"][0]["TerminalName"] == "Bainbridge Island":
-            SeattleNext.append(SeattleTerminal[i])
-    returnstring += getalloutput(leavingSeattle, SeattleTerminal, "Seattle", "Bainbridge Island")
-
+    returnstring += getalloutput(leavingSeattle, SeattleTerminal, "Seattle", terminalname)
     return returnstring
 
 
