@@ -70,6 +70,17 @@ def getseattleferries(ferries: list, terminals: list, route: str, terminalname: 
     return returnstring
 
 
+def checkferries(ferries: list, terminals: list, route: str, terminal1name: str, terminal2name: str) -> str:
+    returnstring = ''
+    terminal1 = findterminal(terminals, terminal1name)
+    leavingterminal1 = findvessel(ferries, terminal1name, route)
+    returnstring += getalloutput(leavingterminal1, terminal1, terminal1name, terminal2name)
+    terminal2 = findterminal(terminals, terminal2name)
+    leavingterminal2 = findvessel(ferries, terminal2name, route)
+    returnstring += " " + getalloutput(leavingterminal2, terminal2, terminal2name, terminal1name)
+    return returnstring
+
+
 def getEdKingferries(ferries: list, terminals: list) -> str:
     returnstring = ''
     EdmondsTerminal = findterminal(terminals, "Edmonds")

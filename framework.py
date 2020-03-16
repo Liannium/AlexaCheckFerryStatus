@@ -1,5 +1,5 @@
 import requests
-from vesselfunctions import getseattleferries, loadvessellist, loadterminallist, getEdKingferries, getSeaBrferries
+from vesselfunctions import getseattleferries, loadvessellist, loadterminallist, checkferries
 
 vessellist = loadvessellist()
 terminallist = loadterminallist()
@@ -9,8 +9,8 @@ if terminallist is not None and vessellist is not None:
     if route == "SEA-BI":
         print(getseattleferries(vessellist, terminallist, "SEA-BI", "Bainbridge Island"))
     if route == "ED-KING":
-        print(getEdKingferries(vessellist, terminallist))
+        print(checkferries(vessellist, terminallist, "ED-KING", "Edmonds", "Kingston"))
     if route == "SEA-BR":
-        print(getSeaBrferries(vessellist, terminallist))
+        print(getseattleferries(vessellist, terminallist, "SEA-BR", "Bremerton"))
 else:
     print("The page could not be successfully accessed")

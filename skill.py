@@ -6,7 +6,7 @@ from ask_sdk_model import Response
 from ask_sdk_model.ui import SimpleCard
 from ask_sdk_core.dispatch_components import AbstractExceptionHandler
 
-from vesselfunctions import getEdKingferries, getseattleferries, loadterminallist, loadvessellist
+from vesselfunctions import checkferries, getseattleferries, loadterminallist, loadvessellist
 
 
 class LaunchRequestHandler(AbstractRequestHandler):
@@ -61,7 +61,7 @@ class CheckEdKingIntentHandler(AbstractRequestHandler):
         terminallist = loadterminallist()
 
         if vessellist is not None and terminallist is not None:
-            response = getEdKingferries(vessellist, terminallist)
+            response = checkferries(vessellist, terminallist, "ED-KING", "Edmonds", "Kingston")
         else:
             response = "The page could not be successfully accessed"
 
