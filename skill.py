@@ -93,7 +93,7 @@ class CheckMukClIntentHandler(AbstractRequestHandler):
         return handler_input.response_builder.response
 
 
-class CheckMukClIntentHandler(AbstractRequestHandler):
+class CheckPTCouIntentHandler(AbstractRequestHandler):
     def can_handle(self, handler_input):
         # type: (HandlerInput) -> bool
         print("in check PT-COU")
@@ -220,6 +220,7 @@ sb.add_request_handler(LaunchRequestHandler())
 sb.add_request_handler(CheckFerryIntentHandler())
 sb.add_request_handler(CheckEdKingIntentHandler())
 sb.add_request_handler(CheckMukClIntentHandler())
+sb.add_request_handler(CheckPTCouIntentHandler())
 sb.add_request_handler(CheckSeaBrIntentHandler())
 sb.add_request_handler(CheckSeattleIntentHandler())
 sb.add_request_handler(HelpIntentHandler())
