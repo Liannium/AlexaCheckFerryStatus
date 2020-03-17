@@ -93,6 +93,28 @@ class CheckMukClIntentHandler(AbstractRequestHandler):
         return handler_input.response_builder.response
 
 
+class CheckPDTalIntentHandler(AbstractRequestHandler):
+    def can_handle(self, handler_input):
+        # type: (HandlerInput) -> bool
+        print("in check PD-TAL")
+        return is_intent_name("CheckPDTalIntent")(handler_input)
+
+    def handle(self, handler_input):
+        response = ""
+        vessellist = loadvessellist()
+        terminallist = loadterminallist()
+
+        if vessellist is not None and terminallist is not None:
+            response = checkferries(vessellist, terminallist, "PD-TAL", "Port Defiance", "Tahlequah")
+        else:
+            response = "The page could not be successfully accessed"
+
+        handler_input.response_builder.speak(response).set_card(
+            SimpleCard("Check Port Defiance Tahlequah", response)).set_should_end_session(
+            True)
+        return handler_input.response_builder.response
+
+
 class CheckPTCouIntentHandler(AbstractRequestHandler):
     def can_handle(self, handler_input):
         # type: (HandlerInput) -> bool
@@ -220,6 +242,7 @@ sb.add_request_handler(LaunchRequestHandler())
 sb.add_request_handler(CheckFerryIntentHandler())
 sb.add_request_handler(CheckEdKingIntentHandler())
 sb.add_request_handler(CheckMukClIntentHandler())
+sb.add_request_handler(CheckPDTalIntentHandler())
 sb.add_request_handler(CheckPTCouIntentHandler())
 sb.add_request_handler(CheckSeaBrIntentHandler())
 sb.add_request_handler(CheckSeattleIntentHandler())
