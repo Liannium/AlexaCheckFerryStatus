@@ -37,7 +37,7 @@ def getoutput(ferry: dict, canceled: bool) -> str:
             ferry["nextdep"], ferry["nextdepAMPM"], ferry["lastdock"])
     else:
         output = "The {} {} sailing of the {} from {} to {} left the dock at {} {} and is expected to arrive at {} " \
-                 "{}.".format(ferry["nextdep"], ferry["nextdepAMPM"], ferry["name"], ferry["lastdock"], ferry["aterm"],
+                 "{}. ".format(ferry["nextdep"], ferry["nextdepAMPM"], ferry["name"], ferry["lastdock"], ferry["aterm"],
                               ferry["leftdock"], ferry["leftdockAMPM"], ferry["eta"], ferry["etaAMPM"])
     return output
 
@@ -77,7 +77,7 @@ def checkferries(ferries: list, terminals: list, route: str, terminal1name: str,
     returnstring += getalloutput(leavingterminal1, terminal1, terminal1name, terminal2name)
     terminal2 = findterminal(terminals, terminal2name)
     leavingterminal2 = findvessel(ferries, terminal2name, route)
-    returnstring += " " + getalloutput(leavingterminal2, terminal2, terminal2name, terminal1name)
+    returnstring += getalloutput(leavingterminal2, terminal2, terminal2name, terminal1name)
     return returnstring
 
 
