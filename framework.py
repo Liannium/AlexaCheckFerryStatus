@@ -1,4 +1,3 @@
-import requests
 from vesselfunctions import getseattleferries, loadvessellist, loadterminallist, checkferries
 
 vessellist = loadvessellist()
@@ -14,5 +13,7 @@ if terminallist is not None and vessellist is not None:
         print(getseattleferries(vessellist, terminallist, "SEA-BR", "Bremerton"))
     if route == "MUK-CL":
         print(checkferries(vessellist, terminallist, "MUK-CL", "Mukilteo", "Clinton"))
+    if route == "PD-TAL":
+        print(checkferries(vessellist, terminallist, "PD-TAL", "Port Defiance", "Tahlequah"))
 else:
     print("The page could not be successfully accessed")

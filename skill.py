@@ -105,7 +105,7 @@ class CheckPDTalIntentHandler(AbstractRequestHandler):
         terminallist = loadterminallist()
 
         if vessellist is not None and terminallist is not None:
-            response = checkferries(vessellist, terminallist, "PD-TAL", "Port Defiance", "Tahlequah")
+            response = checkferries(vessellist, terminallist, "PD-TAL", "Point Defiance", "Tahlequah")
         else:
             response = "The page could not be successfully accessed"
 

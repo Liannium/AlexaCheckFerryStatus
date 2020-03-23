@@ -5,6 +5,7 @@ import requests
 vesselurl = "https://www.wsdot.com/ferries/vesselwatch/Vessels.ashx"
 terminalurl = "https://www.wsdot.wa.gov/ferries/vesselwatch/Terminals.ashx"
 
+
 def findvessel(ferries: list, departingfrom: str, route: str) -> list:
     """finds the vessel currently sailing from the specified dock on the specified route"""
     returnvessels = []
@@ -78,17 +79,6 @@ def checkferries(ferries: list, terminals: list, route: str, terminal1name: str,
     terminal2 = findterminal(terminals, terminal2name)
     leavingterminal2 = findvessel(ferries, terminal2name, route)
     returnstring += getalloutput(leavingterminal2, terminal2, terminal2name, terminal1name)
-    return returnstring
-
-
-def getEdKingferries(ferries: list, terminals: list) -> str:
-    returnstring = ''
-    EdmondsTerminal = findterminal(terminals, "Edmonds")
-    leavingEdmonds = findvessel(ferries, "Edmonds", "ED-KING")
-    returnstring += getalloutput(leavingEdmonds, EdmondsTerminal, "Edmonds", "Kingston")
-    KingstonTerminal = findterminal(terminals, "Kingston")
-    leavingKingston = findvessel(ferries, "Kingston", "ED-KING")
-    returnstring += getalloutput(leavingKingston, KingstonTerminal, "Kingston", "Edmonds")
     return returnstring
 
 
