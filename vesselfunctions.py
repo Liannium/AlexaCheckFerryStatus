@@ -29,17 +29,17 @@ def getoutput(ferry: dict, canceled: bool) -> str:
     """returns the output string"""
     output = ""
     if canceled:
-        output = "The {} {} sailing from {} to {} has been cancelled.".format(ferry["nextdep"], ferry["nextdepAMPM"],
-                                                                              ferry["lastdock"], ferry["aterm"])
+        output = "The {} {} sailing from {} to {} has been cancelled. ".format(ferry["nextdep"], ferry["nextdepAMPM"],
+                                                                               ferry["lastdock"], ferry["aterm"])
     if ferry["eta"] == "":
         output = "The estimated arrival of the ferry currently leaving {} cannot be found.".format(ferry["lastdock"])
     elif ferry["eta"] == "Calculating":
-        output = "The estimated arrival of the {} {} ferry departing from {} is being calculated.".format(
+        output = "The estimated arrival of the {} {} ferry departing from {} is being calculated. ".format(
             ferry["nextdep"], ferry["nextdepAMPM"], ferry["lastdock"])
     else:
         output = "The {} {} sailing of the {} from {} to {} left the dock at {} {} and is expected to arrive at {} " \
                  "{}. ".format(ferry["nextdep"], ferry["nextdepAMPM"], ferry["name"], ferry["lastdock"], ferry["aterm"],
-                              ferry["leftdock"], ferry["leftdockAMPM"], ferry["eta"], ferry["etaAMPM"])
+                               ferry["leftdock"], ferry["leftdockAMPM"], ferry["eta"], ferry["etaAMPM"])
     return output
 
 
@@ -100,3 +100,39 @@ def loadterminallist():
         terminalstring = re.sub(regex, "null", terminalresp.text, flags=re.MULTILINE)
         terminals = json.loads(terminalstring)
         return terminals["FeedContentList"]
+
+
+def checkFVSferries(ferries: list, terminals: list) -> str:
+    leavingVashon = findvessel(ferries, "Vashon Island", "F-V-S")
+    returnstring = getallFVSoutput(leavingVashon, "Vashon Island", "Fauntleroy")
+    leavingFauntleroy = findvessel(ferries, "Fauntleroy", "F-V-S")
+    returnstring += getallFVSoutput(leavingFauntleroy, "Fauntleroy", "Vashon Island")
+    leavingSouthworth = findvessel(ferries, "Southworth", "F-V-S")
+    returnstring += getallFVSoutput(leavingFauntleroy, "Southworth", "Vashon Island")
+    return returnstring
+
+
+def getallFVSoutput(ferries: list, terminal1: str, terminal2: str) -> str:
+    returnstring = ''
+    if ferries:
+        for i in range(0, len(ferries)):
+            current = ferries[i]
+            returnstring += getFVSoutput(current)
+    else:
+        returnstring = "There are no ferries going from " + terminal1 + " to " + terminal2 + " right now. "
+    return returnstring
+
+
+def getFVSoutput (ferry: dict):
+    if ferry["eta"] == "":
+        output = "The estimated arrival of the ferry currently leaving {} cannot be found. ".format(ferry["lastdock"])
+    elif not ferry["nextdep"]:
+        output = ""
+    elif ferry["eta"] == "Calculating":
+        output = "The estimated arrival of the {} {} ferry departing from {} is being calculated. ".format(
+            ferry["nextdep"], ferry["nextdepAMPM"], ferry["lastdock"])
+    else:
+        output = "The {} {} sailing of the {} from {} to {} left the dock at {} {} and is expected to arrive at {} " \
+                 "{}. ".format(ferry["nextdep"], ferry["nextdepAMPM"], ferry["name"], ferry["lastdock"], ferry["aterm"],
+                              ferry["leftdock"], ferry["leftdockAMPM"], ferry["eta"], ferry["etaAMPM"])
+    return output
