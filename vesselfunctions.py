@@ -108,7 +108,7 @@ def checkFVSferries(ferries: list, terminals: list) -> str:
     leavingFauntleroy = findvessel(ferries, "Fauntleroy", "F-V-S")
     returnstring += getallFVSoutput(leavingFauntleroy, "Fauntleroy", "Vashon Island")
     leavingSouthworth = findvessel(ferries, "Southworth", "F-V-S")
-    returnstring += getallFVSoutput(leavingFauntleroy, "Southworth", "Vashon Island")
+    returnstring += getallFVSoutput(leavingSouthworth, "Southworth", "Vashon Island")
     return returnstring
 
 
